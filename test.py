@@ -28,11 +28,15 @@ plt.show()
 """
 
 """
-Test para probar a cargar datos
+Test para probar a cargar datos y calcular entropia
 """
 
 t = a()
-datos = a.get_datos(False,"datasets/cars.csv")
+datos = t.get_datos(True,"datasets/ejemplo1.csv")
 print(datos.head(10))
 
-print(a.get_entropia(datos))
+print(t.get_entropia(datos))
+
+print(datos.iloc[0,0])
+print(datos.loc[0,"Cielo"])
+print(list(datos.columns))

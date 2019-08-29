@@ -10,7 +10,7 @@ class ArbolMixto:
         Atributos contiene la lista de los headers de los datos, en caso de tener que ir modificando hacer una copia de esta lista.
         """
         self.nodos = []
-        self.atributos = []
+        self.atributos = None
 
     def convertir_arbol_grafo(self):
         """
@@ -26,7 +26,7 @@ class ArbolMixto:
 
         return G
 
-    def get_datos(headers,ruta):
+    def get_datos(self,headers,ruta):
         """
         El csv con los datos debe tener en la ultima columna el atributo clasificador
         Headers debe ser true si el csv contiene headers, false en otro caso
@@ -42,14 +42,14 @@ class ArbolMixto:
 
         return datos
 
-    def get_entropia(datos):
+    def get_entropia(self,datos):
         """
         Recibe como parametro los datos como dataframe devuelve la entropia del dataset
         """
-        columna = datos.iloc[:,0]  
-        valores = list(set(datos.iloc[:,0]))
+        columna = datos.iloc[:,-1]  
+        valores = list(set(columna))
         p = 0
-        for i in datos.iloc[:,0]:
+        for i in columna:
             if i == valores[0]:
                 p = p + 1
         n = len(columna) - p

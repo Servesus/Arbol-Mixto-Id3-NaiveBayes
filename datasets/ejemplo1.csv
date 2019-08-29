@@ -1,0 +1,15 @@
+Cielo,Temperatura,Humedad,Viento,JugarTenis
+soleado,alta,alta,debil,-
+soleado,alta,alta,fuerte,-
+nublado,alta,alta,debil,+
+lluvia,suave,alta,debil,+
+lluvia,baja,normal,debil,+
+lluvia,baja,normal,fuerte,-
+nublado,baja,normal,fuerte,+
+soleado,suave,alta,debil,-
+soleado,baja,normal,debil,+
+lluvia,suave,normal,debil,+
+soleado,suave,normal,fuerte,+
+nublado,suave,alta,fuerte,+
+nublado,alta,normal,debil,+
+lluvia,suave,alta,fuerte,-
