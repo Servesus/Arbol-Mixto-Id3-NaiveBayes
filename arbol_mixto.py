@@ -12,19 +12,17 @@ class ArbolMixto:
         self.nodos = []
         self.atributos = None
 
-    def convertir_arbol_grafo(self):
-        """
-        Convierte el arbol de un grafo usando NetworkX, asi se puede imprimir por pantalla.
-        """
-        G = nx.Graph()
-        G.add_node(self.nodos[0])
-        for nodo in self.nodos:
-            for hijo in nodo.hijos:
-                G.add_node(hijo)
-                G.add_edge(nodo,hijo.nombre,label=hijo.arista)
-
-
-        return G
+    def dibuja_arbol(self):
+       from anytree import Node, RenderTree
+       for nodo in self.nodos:
+           if nodo.padre == None:
+               nodo.nombre = Node(str(nodo))
+           else:
+                nodo.nombre = Node(str(nodo),parent = nodo.padre.nombre)
+        
+       for pre, fill, node in RenderTree(self.nodos[0].nombre):
+           print("%s%s" % (pre, node.name))
+        
 
     def get_datos(self,headers,ruta):
         """
