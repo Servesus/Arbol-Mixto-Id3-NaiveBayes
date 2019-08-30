@@ -33,10 +33,23 @@ Test para probar a cargar datos y calcular entropia
 
 t = a()
 datos = t.get_datos(True,"datasets/ejemplo1.csv")
-print(datos.head(10))
-
+#print(datos.head(10))
+"""
 print(t.get_entropia(datos))
 
 print(datos.iloc[0,0])
 print(datos.loc[0,"Cielo"])
 print(list(datos.columns))
+"""
+"""
+b = datos['Temperatura']
+list_atributos = list(set(b))
+nuevos_datos = datos.loc[datos["Temperatura"] == "alta"]
+print(nuevos_datos)
+print(len(nuevos_datos.index))
+"""
+print(t.get_entropia(datos))
+print(t.get_ganancia(datos, 'Humedad'))
+print(t.get_ganancia(datos, 'Viento'))
+print(t.get_ganancia(datos, 'Cielo'))
+print(t.get_ganancia(datos,"Temperatura"))

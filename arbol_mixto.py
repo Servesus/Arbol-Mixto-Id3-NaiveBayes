@@ -53,10 +53,30 @@ class ArbolMixto:
             if i == valores[0]:
                 p = p + 1
         n = len(columna) - p
-        division1 = p/len(columna)
-        division2 = n/len(columna)
-        entropia = - (division1 * math.log(division1,2)) - (division2 * math.log(division2,2))
-        return entropia
+        if p == 0 or n == 0:
+            return 0
+        else:
+            division1 = p/len(columna)
+            division2 = n/len(columna)
+            entropia = - (division1 * math.log(division1,2)) - (division2 * math.log(division2,2))
+            return entropia
+        
 
+    def get_ganancia(self, datos, atributo):
+        """
+        Recibe como parametro los datos como dataframe y el nombre del atributo del que se quiere calcular la ganancia 
+        """
+        list_valores_atributo = list(set(datos[atributo]))
+        longitud_total = len(datos.index)
+        entropia_datos = self.get_entropia(datos)
+        for valor in list_valores_atributo:
+            nuevos_datos = datos.loc[datos[atributo] == valor]
+            longitud_valor = len(nuevos_datos.index)
+            division = longitud_valor/longitud_total
+            res = division * self.get_entropia(nuevos_datos)
+            entropia_datos = entropia_datos - res
+        return entropia_datos
+
+                    
 
 
