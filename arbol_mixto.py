@@ -16,9 +16,10 @@ class ArbolMixto:
        from anytree import Node, RenderTree
        for nodo in self.nodos:
            if nodo.padre == None:
-               nodo.nombre = Node(str(nodo))
+               nodo.nombre = Node(nodo.nombre)
            else:
-                nodo.nombre = Node(str(nodo),parent = nodo.padre.nombre)
+               nodo.arista = Node(str(nodo.arista),parent = nodo.padre.nombre)
+               nodo.nombre = Node(nodo.nombre,parent = nodo.arista)
         
        for pre, fill, node in RenderTree(self.nodos[0].nombre):
            print("%s%s" % (pre, node.name))
