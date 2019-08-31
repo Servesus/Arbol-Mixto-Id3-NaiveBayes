@@ -110,14 +110,14 @@ class ArbolMixto:
         Nodo_anterior y valor_anterior son necesario para poder asignar padre y arista
         """
         #Si no se cumple en quorum añadir nodo para llamada Naive Bayes
+        ultima_columna = list(set(ejemplos.iloc[:,-1]))
         if len(ejemplos.index) < quorum:
             self.crear_nodo("Naive Bayes",nodo_anterior,valor_anterior)
         #Si todos los ejemplos tienen la misma clasificacion crear nodo con dicha clasificacion
-        ultima_columna = list(set(ejemplos.iloc[:,-1]))
-        if len(ultima_columna) == 1:
+        elif len(ultima_columna) == 1:
             self.crear_nodo(str(ultima_columna[0]),nodo_anterior,valor_anterior)
         #Si no quedan atributos devolver valor mayoritario
-        if len(self.atributos) <= 0:
+        elif len(self.atributos) <= 0:
             #Saco la ultima columna como dataframe para poder sacar el valor mas comun
             df_ultima_columna = ejemplos.iloc[:,-1]
             valor_mayoritario = list(df_ultima_columna.mode())[0]
