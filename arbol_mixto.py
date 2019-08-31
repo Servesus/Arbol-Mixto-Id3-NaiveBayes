@@ -2,6 +2,7 @@ import networkx as nx
 from nodo import Nodo
 import pandas
 import math
+from sklearn.naive_bayes import MultinomialNB
 
 class ArbolMixto:
     def __init__(self):
@@ -11,6 +12,7 @@ class ArbolMixto:
         """
         self.nodos = []
         self.atributos = []
+        self.clasificadorNB = None
 
     def crear_nodo(self,nombre,padre,arista):
         nodo = Nodo(nombre,padre,arista)
@@ -26,12 +28,12 @@ class ArbolMixto:
        from anytree import Node, RenderTree
        for nodo in self.nodos:
            if nodo.padre == None:
-               nodo.nombre = Node(nodo.nombre)
+               vars()[nodo.nombre] = Node(nodo.nombre)
            else:
-               nodo.arista = Node(str(nodo.arista),parent = nodo.padre.nombre)
-               nodo.nombre = Node(nodo.nombre,parent = nodo.arista)
+               vars()[nodo.arista] = Node(str(nodo.arista),parent = vars()[nodo.padre.nombre])
+               vars()[nodo.nombre] = Node(nodo.nombre,parent = vars()[nodo.arista])
         
-       for pre, fill, node in RenderTree(self.nodos[0].nombre):
+       for pre, fill, node in RenderTree(vars()[self.nodos[0].nombre]):
            print("%s%s" % (pre, node.name))
         
 
@@ -100,9 +102,12 @@ class ArbolMixto:
         quorum: numero minimo de ejemplos que debe contener el dataset para que la rama del arbol id3 sea fiable
         """
         datos = self.get_datos(headers,ruta)
+        #clf = MultinomialNB()
         self.atributos = list(datos.columns)
+        #clf.fit(datos.loc[:,datos.columns != self.atributos[-1]],datos.iloc[:,-1])
         del self.atributos[-1]
         self.crear_arbol_mixto(datos,quorum,None,None)
+
 
 
     def crear_arbol_mixto(self,ejemplos,quorum,nodo_anterior,valor_anterior):
@@ -139,3 +144,25 @@ class ArbolMixto:
                 else:
                     self.crear_arbol_mixto(nuevos_ejemplos,quorum,nodo,valor)
 
+    def clasificar(self,header,ruta):
+        """
+        Recibe como parametros los mismos que el metodo get_datos()
+        Devuelve una lista con la clasificacion para cada fila
+        """
+        datos = self.get_datos(header,ruta)
+        res = []
+        for i in range(len(datos.index)):
+            fila = datos.iloc[i,:]
+            clasificacion = self.clasifica_fila(fila,self.nodos[0])
+            res.append(clasificacion)
+        return res
+
+    def clasifica_fila(self,fila,nodo):
+        if nodo.nombre == "Naive Bayes":
+            #TODO Hacer naive Bayes con scikit-learn
+            a=1
+        elif len(nodo.hijos) == 0:
+            return str(nodo.nombre)
+        else:
+            siguiente_nodo = nodo.get_hijo_arista(str(fila[nodo.nombre]))
+            return self.clasifica_fila(fila,siguiente_nodo)
