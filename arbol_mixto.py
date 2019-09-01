@@ -183,7 +183,7 @@ class ArbolMixto:
             probabilidad = probabilidad * ((len(datos_filtrados.index)+1)/(tamaño_inicial + 2))
             for atributo in atributos:
                 datos_filtrados2 = datos_filtrados.loc[datos_filtrados[atributo] == fila[atributo]]
-                probabilidad = probabilidad * (len(datos_filtrados2.index)/tamaño_inicial)
+                probabilidad = probabilidad * ((len(datos_filtrados2.index)+1)/(tamaño_inicial + 2))
             res.append(round(probabilidad,5))
         solucion.append(ultima_columna[res.index(max(res))])
         solucion.append(max(res))
