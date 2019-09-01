@@ -3,6 +3,8 @@ from nodo import Nodo
 import pandas
 import math
 from sklearn.naive_bayes import MultinomialNB
+from sklearn import preprocessing
+import numpy
 
 class ArbolMixto:
     def __init__(self):
@@ -12,7 +14,7 @@ class ArbolMixto:
         """
         self.nodos = []
         self.atributos = []
-        self.clasificadorNB = None
+        self.datos_entrenamiento = None
 
     def crear_nodo(self,nombre,padre,arista):
         nodo = Nodo(nombre,padre,arista)
@@ -102,9 +104,8 @@ class ArbolMixto:
         quorum: numero minimo de ejemplos que debe contener el dataset para que la rama del arbol id3 sea fiable
         """
         datos = self.get_datos(headers,ruta)
-        #clf = MultinomialNB()
+        self.datos_entrenamiento = datos
         self.atributos = list(datos.columns)
-        #clf.fit(datos.loc[:,datos.columns != self.atributos[-1]],datos.iloc[:,-1])
         del self.atributos[-1]
         self.crear_arbol_mixto(datos,quorum,None,None)
 
@@ -160,9 +161,31 @@ class ArbolMixto:
     def clasifica_fila(self,fila,nodo):
         if nodo.nombre == "Naive Bayes":
             #TODO Hacer naive Bayes con scikit-learn
-            a=1
+            return self.naive_bayes(fila)
         elif len(nodo.hijos) == 0:
             return str(nodo.nombre)
         else:
             siguiente_nodo = nodo.get_hijo_arista(str(fila[nodo.nombre]))
             return self.clasifica_fila(fila,siguiente_nodo)
+
+
+    def naive_bayes(self,fila):
+        res = []
+        solucion = []
+        tamaño_inicial = len(self.datos_entrenamiento.index)
+        ultima_columna = list(set(self.datos_entrenamiento.iloc[:,-1]))
+        atributos = list(self.datos_entrenamiento.columns)
+        atributo_objetivo = atributos[-1]
+        del atributos[-1]
+        for valor in ultima_columna:
+            probabilidad = 1
+            datos_filtrados = self.datos_entrenamiento.loc[self.datos_entrenamiento[atributo_objetivo] == valor]
+            probabilidad = probabilidad * ((len(datos_filtrados.index)+1)/(tamaño_inicial + 2))
+            for atributo in atributos:
+                datos_filtrados2 = datos_filtrados.loc[datos_filtrados[atributo] == fila[atributo]]
+                probabilidad = probabilidad * (len(datos_filtrados2.index)/tamaño_inicial)
+            res.append(round(probabilidad,5))
+        solucion.append(ultima_columna[res.index(max(res))])
+        solucion.append(max(res))
+        return solucion
+
