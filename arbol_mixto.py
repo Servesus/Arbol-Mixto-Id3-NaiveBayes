@@ -15,6 +15,8 @@ class ArbolMixto:
         self.nodos = []
         self.atributos = []
         self.datos_entrenamiento = None
+        self.datos_evaluacion = None
+        self.clasificaciones = None 
 
     def crear_nodo(self,nombre,padre,arista):
         nodo = Nodo(nombre,padre,arista)
@@ -151,11 +153,13 @@ class ArbolMixto:
         Devuelve una lista con la clasificacion para cada fila
         """
         datos = self.get_datos(header,ruta)
+        self.datos_evaluacion = datos
         res = []
         for i in range(len(datos.index)):
             fila = datos.iloc[i,:]
             clasificacion = self.clasifica_fila(fila,self.nodos[0])
             res.append(clasificacion)
+        self.clasificaciones = res
         return res
 
     def clasifica_fila(self,fila,nodo):
@@ -188,4 +192,21 @@ class ArbolMixto:
         solucion.append(ultima_columna[res.index(max(res))])
         solucion.append(max(res))
         return solucion
+
+    def rendimiento(self):
+        """
+        Compara la ultima columna de los datos de evaluacion con las clasificaciones del arbol mixto, devuelve el porcentaje de acierto
+        """
+        ultima_columna = list(self.datos_evaluacion.iloc[:,-1])
+        aciertos = 0
+        for i,valor in enumerate(ultima_columna):
+            if type(self.clasificaciones[i]) is list:
+                clasificacion = self.clasificaciones[i][0]
+            else:
+                clasificacion = self.clasificaciones[i]
+            if clasificacion == valor:
+                aciertos = aciertos + 1
+        
+        return (aciertos / len(ultima_columna))*100
+
 

@@ -66,8 +66,9 @@ print(list(ultima_columna.mode())[0])
 """
 
 t = a()
-t.entrenar(True,"datasets/ejemplo1.csv",3)
+t.entrenar(True,"datasets/ejemplo1.csv",0)
 t.dibuja_arbol()
 res = t.clasificar(True,"datasets/ejemplo1.csv")
 print(t.get_datos(True,"datasets/ejemplo1.csv"))
 print(res)
+print(t.rendimiento())
