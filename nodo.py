@@ -11,7 +11,9 @@ class Nodo:
             if type(hijo.arista) is int:
                 x = float(hijo.arista)
                 y = type(arista)(x)
-            if arista == y:
-                res = hijo
-            
+                if arista == y:
+                    res = hijo
+            else:
+                if hijo.arista == arista:
+                    res = hijo
         return res

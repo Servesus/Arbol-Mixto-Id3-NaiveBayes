@@ -174,6 +174,9 @@ class ArbolMixto:
 
 
     def naive_bayes(self,fila):
+        """
+        Calcula Naive bayes con suavizado de Laplace
+        """
         res = []
         solucion = []
         tamaño_inicial = len(self.datos_entrenamiento.index)
@@ -187,12 +190,13 @@ class ArbolMixto:
             datos_filtrados = self.datos_entrenamiento.loc[self.datos_entrenamiento[atributo_objetivo] == valor]
             #Numero de casos en los que el atributo objetivo tiene como valor el valor que se esta iterando actualmente
             denominador = len(datos_filtrados.index)
-            probabilidad = probabilidad * denominador/tamaño_inicial 
+            probabilidad = probabilidad * (denominador + 1 ) / (tamaño_inicial + 2  )
             for atributo in atributos:
                 #Datos filtrados por atributo objetivo y atributo actual
                 datos_filtrados2 = datos_filtrados.loc[datos_filtrados[atributo] == fila[atributo]]
+                a = len(set(self.datos_entrenamiento[atributo]))
                 numerador = len(datos_filtrados2.index)
-                probabilidad = probabilidad * numerador / denominador
+                probabilidad = probabilidad * (numerador + 1)/ (denominador + a)
             res.append(round(probabilidad,5))
         solucion.append(ultima_columna[res.index(max(res))])
         solucion.append(max(res))
@@ -212,8 +216,11 @@ class ArbolMixto:
             if clasificacion != None:
                 if type(valor) is int:
                     x = type(clasificacion)(valor)
-            if clasificacion == x:
-                aciertos = aciertos + 1
+                    if clasificacion == x:
+                        aciertos = aciertos + 1
+                else:
+                    if clasificacion == valor:
+                        aciertos = aciertos + 1
         
         return (aciertos / len(ultima_columna))*100
 

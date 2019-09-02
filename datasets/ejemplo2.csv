@@ -1,0 +1,16 @@
+﻿Tipo,Lugar,Estilo,Marco,Autor
+grabado,españa,clasico,no,b
+grabado,españa,moderno,no,b
+grabado,portugal,moderno,no,b
+grabado,francia,clasico,si,b
+grabado,francia,moderno,si,b
+oleo,españa,clasico,si,a
+oleo,españa,clasico,no,a
+oleo,francia,moderno,no,a
+oleo,portugal,moderno,si,b
+oleo,españa,moderno,si,b
+acuarela,francia,clasico,no,b
+acuarela,españa,clasico,si,a
+acuarela,francia,moderno,no,b
+acuarela,españa,moderno,no,a
+acuarela,portugal,moderno,si,b
