@@ -6,6 +6,12 @@ class Nodo:
         self.hijos = []
 
     def get_hijo_arista(self,arista):
+        res = None
         for hijo in self.hijos:
-            if hijo.arista == arista:
-                return hijo
+            if type(hijo.arista) is int:
+                x = float(hijo.arista)
+                y = type(arista)(x)
+            if arista == y:
+                res = hijo
+            
+        return res

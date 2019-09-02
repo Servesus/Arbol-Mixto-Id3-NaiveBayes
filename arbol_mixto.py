@@ -2,9 +2,7 @@ import networkx as nx
 from nodo import Nodo
 import pandas
 import math
-from sklearn.naive_bayes import MultinomialNB
-from sklearn import preprocessing
-import numpy
+
 
 class ArbolMixto:
     def __init__(self):
@@ -163,7 +161,9 @@ class ArbolMixto:
         return res
 
     def clasifica_fila(self,fila,nodo):
-        if nodo.nombre == "Naive Bayes":
+        if nodo ==  None:
+            return None
+        elif nodo.nombre == "Naive Bayes":
             #TODO Hacer naive Bayes con scikit-learn
             return self.naive_bayes(fila)
         elif len(nodo.hijos) == 0:
@@ -209,7 +209,10 @@ class ArbolMixto:
                 clasificacion = self.clasificaciones[i][0]
             else:
                 clasificacion = self.clasificaciones[i]
-            if clasificacion == valor:
+            if clasificacion != None:
+                if type(valor) is int:
+                    x = type(clasificacion)(valor)
+            if clasificacion == x:
                 aciertos = aciertos + 1
         
         return (aciertos / len(ultima_columna))*100
