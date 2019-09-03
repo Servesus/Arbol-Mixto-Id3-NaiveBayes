@@ -1,4 +1,3 @@
-import networkx as nx
 from nodo import Nodo
 import pandas
 import math
