@@ -66,8 +66,8 @@ print(list(ultima_columna.mode())[0])
 """
 
 t = a()
-t.entrenar(True,"datasets/ejemplo1.csv",20)
+t.entrenar(False,"datasets/kr-vs-kp-test.csv",5)
 t.dibuja_arbol()
-res = t.clasificar(True,"datasets/evaluacion1.csv")
+res = t.clasificar(False,"datasets/kr-vs-kp-train.csv")
 print(res)
 print(t.rendimiento())

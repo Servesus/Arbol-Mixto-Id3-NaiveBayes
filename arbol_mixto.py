@@ -107,11 +107,11 @@ class ArbolMixto:
         self.datos_entrenamiento = datos
         self.atributos = list(datos.columns)
         del self.atributos[-1]
-        self.crear_arbol_mixto(datos,quorum,None,None)
+        self.crear_arbol_mixto(datos,quorum,None,None,self.atributos)
 
 
 
-    def crear_arbol_mixto(self,ejemplos,quorum,nodo_anterior,valor_anterior):
+    def crear_arbol_mixto(self,ejemplos,quorum,nodo_anterior,valor_anterior,atributos):
         """
         Nodo_anterior y valor_anterior son necesario para poder asignar padre y arista
         """
@@ -123,7 +123,7 @@ class ArbolMixto:
         elif len(ultima_columna) == 1:
             self.crear_nodo(str(ultima_columna[0]),nodo_anterior,valor_anterior)
         #Si no quedan atributos devolver valor mayoritario
-        elif len(self.atributos) <= 0:
+        elif len(atributos) <= 0:
             #Saco la ultima columna como dataframe para poder sacar el valor mas comun
             df_ultima_columna = ejemplos.iloc[:,-1]
             valor_mayoritario = list(df_ultima_columna.mode())[0]
@@ -133,9 +133,10 @@ class ArbolMixto:
             valores_mejor_atributo = list(set(ejemplos[mejor_atributo]))
             self.crear_nodo(mejor_atributo,nodo_anterior,valor_anterior)
             nodo = self.nodos[-1]
-            self.atributos.remove(mejor_atributo)
             for valor in valores_mejor_atributo:
                 nuevos_ejemplos = ejemplos.loc[ejemplos[mejor_atributo] == valor]
+                atributos = self.atributos[:]
+                atributos.remove(mejor_atributo)
                 #Si el nuevo conjunto esta vacio añado nodo con valor mayoritario solo en caso de que el quorum sea 0 ya que si fuese mayor que 0 le corresponderia un 
                 # nodo naive bayes porque no alcanzaria el minimo
                 if len(nuevos_ejemplos.index) == 0 and quorum == 0:
@@ -143,7 +144,7 @@ class ArbolMixto:
                     valor_mayoritario = list(df_ultima_columna.mode())[0]
                     self.crear_nodo(str(valor_mayoritario),nodo_anterior,valor)
                 else:
-                    self.crear_arbol_mixto(nuevos_ejemplos,quorum,nodo,valor)
+                    self.crear_arbol_mixto(nuevos_ejemplos,quorum,nodo,valor,atributos)
 
     def clasificar(self,header,ruta):
         """
@@ -197,7 +198,7 @@ class ArbolMixto:
                 a = len(set(self.datos_entrenamiento[atributo]))
                 numerador = len(datos_filtrados2.index)
                 probabilidad = probabilidad * (numerador + 1)/ (denominador + a)
-            res.append(round(probabilidad,5))
+            res.append(probabilidad)
         solucion.append(ultima_columna[res.index(max(res))])
         solucion.append(max(res))
         return solucion
