@@ -190,7 +190,7 @@ class ArbolMixto:
             datos_filtrados = self.datos_entrenamiento.loc[self.datos_entrenamiento[atributo_objetivo] == valor]
             #Numero de casos en los que el atributo objetivo tiene como valor el valor que se esta iterando actualmente
             denominador = len(datos_filtrados.index)
-            probabilidad = probabilidad * (denominador + 1 ) / (tamaño_inicial + 2  )
+            probabilidad = probabilidad * (denominador ) / (tamaño_inicial )
             for atributo in atributos:
                 #Datos filtrados por atributo objetivo y atributo actual
                 datos_filtrados2 = datos_filtrados.loc[datos_filtrados[atributo] == fila[atributo]]
