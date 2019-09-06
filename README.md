@@ -24,5 +24,6 @@ t.clasificar(False,"datasets/car-data-test.csv")
 ### Los parámetros que recibe son:
 	1º Boolean indicando si el csv tiene en la primera línea los nombres de los atributos
 	2º Ruta del archivo, en caso de usar nuevos archivos se recomienda meterlos en la carpeta datasets
+
 ##Calcular rendimiento
 print(t.rendimiento())
