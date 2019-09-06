@@ -2,14 +2,7 @@ from arbol_mixto import ArbolMixto as a
 from nodo import Nodo
 
 
-"""
-t = a()
-t.entrenar(False,"datasets/car-data-train.csv",200)
-t.dibuja_arbol()
-res = t.clasificar(False,"datasets/car-data-test.csv")
-print(res)
-print(t.rendimiento())
-"""
+
 """
 #Experimento 1
 
