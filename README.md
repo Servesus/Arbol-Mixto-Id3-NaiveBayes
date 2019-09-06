@@ -6,7 +6,8 @@ anytree 2.6.0
 
 Los experimentos documentados en el paper se encuentran en el archivo test.py
 Para usar los comandos que se indican a continuación basta con escribir en el terminal 
-from arbol_mixto import ArbolMixto as a una vez se esta ejecutando python.
+from arbol_mixto import ArbolMixto as a una vez se esta ejecutando python en el directorio donde se 
+encuentran el resto de archivos.
 
 ## Creación de un árbol
 t = a()
