@@ -15,6 +15,13 @@ for i in range(1,7):
     res.append(rendimiento)
 print(res)
 """
+## Creación de un árbol
+t = a()
+## Entrenar un árbol
+t.entrenar(False,"datasets/car-data-train.csv",5)
+t.dibuja_arbol()
+t.clasificar(False,"datasets/car-data-test.csv")
+print(t.clasificaciones)
 """
 
 #Experimento2
@@ -30,6 +37,7 @@ for i in range(1,40,2):
 print(res2)
 print(res)
 """
+"""
 #Experimento3
 res = []
 res2 = []
@@ -42,3 +50,4 @@ for i in range(1,40,2):
     res2.append(i)
 print(res2)
 print(res)
+"""
